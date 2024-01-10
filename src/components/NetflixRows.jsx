@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+// visto che SingleMovie deve diventare cliccabile e portarmi a MovieDetails
+import { Link } from "react-router-dom";
 import SingleMovie from "./SingleMovie";
 
 // Funzione dove destrutturo qualcosa in props
-const NetflixRows = (props) => {
+const NetflixRows = ({ searchQuery, stile }) => {
   // Utilizzo dello stato con useState per i dati e il caricamento
   const [data, setData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,7 +48,7 @@ const NetflixRows = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = "43b92655";
-      const endpoint = `http://www.omdbapi.com/?apikey=${token}&movie&s=${props.searchQuery}`;
+      const endpoint = `http://www.omdbapi.com/?apikey=${token}&movie&s=${searchQuery}`;
 
       try {
         const response = await fetch(endpoint);
@@ -66,19 +68,22 @@ const NetflixRows = (props) => {
 
     // Chiamata alla funzione di fetch
     fetchData();
-  }, [props.searchQuery]); // Dipendenza da props.searchQuery
+  }, [searchQuery]); // Dipendenza da props.searchQuery
 
   // Rendering di tutto (con return, NON render)
   return (
     <>
       {/* Utilizzo dello Slider con le impostazioni specificate */}
-      <Slider {...settings} className={props.stile}>
+      <Slider {...settings} className={stile}>
         {/* Mappo i dati ottenuti dalla chiamata API */}
         {data.Search &&
           data.Search.map((movie) => (
             <div key={movie.imdbID}>
-              {/* Componente SingleMovie con l'immagine del film */}
-              <SingleMovie img={movie.Poster} />
+              {/* Link per rendere cliccabile la locandina */}
+              <Link to={`/movie-details/${movie.imdbID}`}>
+                {/* Componente SingleMovie con l'immagine del film */}
+                <SingleMovie img={movie.Poster} />
+              </Link>
             </div>
           ))}
       </Slider>

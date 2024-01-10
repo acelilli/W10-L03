@@ -6,7 +6,7 @@ const SingleMovie = (props) => {
       src={props.img}
       className="poster"
       alt="description"
-      style={{ width: "95%", height: "200px", objectFit: "cover", objectPosition: "50% 10%" }}
+      style={{ width: "98%", height: "200px", objectFit: "cover", objectPosition: "50% 10%" }}
     />
   );
 };

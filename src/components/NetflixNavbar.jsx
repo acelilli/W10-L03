@@ -10,15 +10,15 @@ function NetflixNavbar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="#221f1f" data-bs-theme="dark" className="align-content-center">
       <Container fluid>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src={netLogo} alt="logo Netflix" style={{ height: "7vmin" }} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         {/* Elementi Navbar */}
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#tv-shows">Tv Shows</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/tv-shows">Tv Shows</Nav.Link>
             <Nav.Link href="#movies">Movies</Nav.Link>
             <Nav.Link href="#recently-added">Recently Added</Nav.Link>
             <Nav.Link href="#my-list">My List</Nav.Link>

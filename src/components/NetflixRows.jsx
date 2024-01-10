@@ -1,15 +1,16 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SingleMovie from "./SingleMovie";
-// SOLO QUESTO FILE DEVE ANDARE CON GLI HOOKS
-// useState per lo stato che mi serve
 
-//funzione dove destrutturo qualcosa in props
-const NetflixRows = ({ props }) => {
+// Funzione dove destrutturo qualcosa in props
+const NetflixRows = (props) => {
+  // Utilizzo dello stato con useState per i dati e il caricamento
   const [data, setData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Impostazioni per lo slider
   const settings = {
     dots: false,
     infinite: true,
@@ -40,34 +41,43 @@ const NetflixRows = ({ props }) => {
       },
     ],
   };
-  // dopo aver determinato useState faccio la fetch con useEffect
+
+  // Dopo aver determinato useState, effettuo la fetch con useEffect
   useEffect(() => {
     const fetchData = async () => {
       const token = "43b92655";
-      const endpoint = `http://www.omdbapi.com/?apikey=${token}&movie&s=${this.props.searchQuery}`;
+      const endpoint = `http://www.omdbapi.com/?apikey=${token}&movie&s=${props.searchQuery}`;
+
       try {
         const response = await fetch(endpoint);
         if (response.ok) {
           const responseData = await response.json();
-          setData({ responseData });
+          // Aggiorno lo stato con i dati ottenuti dalla chiamata API
+          setData(responseData);
           setIsLoaded(true);
-          console.log("success while fetching");
+          console.log("Successo durante il recupero dei dati");
         } else {
-          console.log("error while fetching");
+          console.log("Errore durante il recupero dei dati");
         }
       } catch (error) {
         console.log(error);
       }
     };
+
+    // Chiamata alla funzione di fetch
     fetchData();
-  }, [props.searchQuery]);
-  // rendering di tutto (con return, NON render)
+  }, [props.searchQuery]); // Dipendenza da props.searchQuery
+
+  // Rendering di tutto (con return, NON render)
   return (
     <>
+      {/* Utilizzo dello Slider con le impostazioni specificate */}
       <Slider {...settings} className={props.stile}>
+        {/* Mappo i dati ottenuti dalla chiamata API */}
         {data.Search &&
           data.Search.map((movie) => (
             <div key={movie.imdbID}>
+              {/* Componente SingleMovie con l'immagine del film */}
               <SingleMovie img={movie.Poster} />
             </div>
           ))}
@@ -75,6 +85,8 @@ const NetflixRows = ({ props }) => {
     </>
   );
 };
+
+export default NetflixRows;
 
 // class NetflixRows extends Component {
 //   state = {
@@ -147,5 +159,3 @@ const NetflixRows = ({ props }) => {
 //     );
 //   }
 // }
-
-export default NetflixRows;
